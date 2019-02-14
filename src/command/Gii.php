@@ -13,6 +13,9 @@ use Phinx\Util\Util;
 use think\console\input\Argument as InputArgument;
 use think\console\Input;
 use think\console\Output;
+use think\console\input\Argument;
+use think\console\input\Option;
+use think\console\Command;
 
 class Gii extends Command
 {

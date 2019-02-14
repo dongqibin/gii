@@ -10,7 +10,6 @@
       "email": "1605769464@qq.com"
     }
   ],
-  
   "autoload": {
     "psr-4": {
       "dongqibin\\gii\\": "src"
