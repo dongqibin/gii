@@ -1,0 +1,78 @@
+{include file='public/header'}
+<?php
+    $tableClass = new \common\html\Table();
+    echo $tableClass->addTitle($title);
+    echo $tableClass->table()->getTable();
+    $btn = [
+        ['edit','编辑'],
+        ['del','删除'],
+    ];
+    echo $tableClass->jsBtn('barDemo',$btn);
+?>
+<script>
+    //表格
+    layui.use(['table'], function() {
+        var table = layui.table;
+        var form  = layui.form;
+        var $ = layui.$;
+        var selfLayui = new SelfLayui(layui,$);
+
+        //渲染
+        var cols = [[
+            {$fields}
+            {fixed: 'right', title:'操作', width:200, toolbar: '#barDemo'}
+        ]];
+        var url = "{:url('/admin/{$fileName}/getData')}";
+        tableRender(cols,url,false,100);
+
+        //搜索
+        var active = {
+            reload: function(){
+                //执行重载
+                var key = {};
+                <?php //foreach($search as $v) echo 'key.'.$v['key'].' = $("#search_'.$v['key'].'").val();';?>
+                selfLayui.reload(key);
+            }
+            ,del: function(){
+                //通过复选框删除
+                var url = '{:url("batchDel")}';
+                selfLayui.delBatch(url);
+            }
+            ,add:function() {
+                //添加
+                selfLayui.openAdd('添加{$title}','{:url("add")}');
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $('#btn-del').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听状态开关
+        form.on('switch(toolStatus)', function(data){
+            var url = '{:url("status")}';
+            selfLayui.changeStatus(url,data);
+        });
+        //监听工具条
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            if(layEvent === 'del') {
+                //删除
+                var url = '{:url("/admin/{$fileName}/del")}?id='+obj.data.id;
+                selfLayui.del(url);
+            } else if(layEvent === 'edit') {
+                //编辑
+                selfLayui.openAdd('编辑{$title}','{:url("/admin/{$fileName}/update")}?id='+data.id);
+            }
+        });
+    });
+</script>
+
+{include file='public/footer'}
+

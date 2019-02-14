@@ -1,0 +1,9 @@
+<?php
+/**
+ * {$desc}的语言包
+ * Created by PhpStorm.
+ * User: {$user}
+ * Date: {$date}
+ * Time: {$time}
+ */
+return {$data};

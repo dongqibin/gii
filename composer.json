@@ -1,0 +1,25 @@
+{
+  "name": "dongqibin/gii",
+  "description": "gii命令行调用",
+  "type":"library",
+  "keywords":["tp5","gii"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "dqb12315",
+      "email": "1605769464@qq.com"
+    }
+  ],
+  
+  "autoload": {
+    "psr-4": {
+      "dongqibin\\gii\\": "src"
+    },
+	"files": [
+      "src/config.php"
+    ]
+  },
+  "require-dev": {
+    "topthink/think-framework": "^5.0"
+  }
+}

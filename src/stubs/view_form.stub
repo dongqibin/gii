@@ -1,0 +1,71 @@
+{include file="../application/common/view/public/head.html"}
+<style>
+    body{padding: 10px;}
+</style>
+<?php
+$formClass = new \dongqibin\html\form\FormLayui($get);
+?>
+<body>
+
+<!-- 内容主体区域 -->
+<div style="padding: 15px;">
+    <?php
+        $url = '/{$module}/{$fileName}/';
+        $url .= empty($get['id']) ? 'add' : 'update';
+        $url = url($url);
+    ?>
+    <form class="layui-form layui-form-pane1" method="post" action="<?php echo $url; ?>" lay-filter="first">
+        <?php
+            echo $formClass->hidden('id');
+            {$fields}
+        ?>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="*">提交</button>
+                <button onclick="closeIframe();" type="button" class="layui-btn">取消</button>
+            </div>
+        </div>
+    </form>
+
+    <br><br><br>
+
+    <script>
+
+        layui.use('form', function(){
+            var $ = layui.$;
+            var form = layui.form;
+            var allow_sub = true;
+
+            //自定义验证规则
+            form.verify({
+
+            });
+
+            //监听提交
+            form.on('submit(*)', function(data){
+                if(!allow_sub) return false;
+                allow_sub = false;
+                $.post('<?php echo $url; ?>' , data.field , function(d) {
+                    if(d.code != 0) {
+                        //返回失败
+                        allow_sub = true;
+                        layer.msg(d.msg);
+                        return false;
+                    }
+                    layer.msg('成功');
+                    setTimeout(function() {
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                        parent.layui.table.reload('list');
+                    },1000);
+                });
+                return false;
+            });
+
+        });
+
+    </script>
+</div>
+
+</body>
+</html>

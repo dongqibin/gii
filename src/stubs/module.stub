@@ -1,0 +1,20 @@
+<?php
+/**
+ * {$desc}
+ * Created by gii.
+ * User: {$userName}
+ * Date: {$date}
+ * Time: {$time}
+ */
+
+namespace app\{$module}\module;
+
+use app\admin\model\{$fileName} as {$fileNameUp}Model;
+use common\Debug;
+use think\Db;
+use think\Exception;
+
+class {$fileNameUp} extends \app\common\module\{$fileNameUp}
+{
+
+}

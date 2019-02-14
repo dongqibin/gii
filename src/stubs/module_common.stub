@@ -1,0 +1,79 @@
+<?php
+/**
+ * {$desc}
+ * Created by gii.
+ * User: {$userName}
+ * Date: {$date}
+ * Time: {$time}
+ */
+
+namespace app\common\module;
+
+use app\admin\model\{$fileName} as {$fileNameUp}Model;
+use think\Exception;
+
+class {$fileNameUp} extends Base
+{
+    /**
+     * 获取列表,带分页
+     * @param array $where
+     * @param int $page
+     * @param int $count
+     * @return array|bool
+     * @throws Exception
+     */
+    public function getListWithCnt($where=[], $page=1, $count=10) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->getListWithCnt($where, $page, $count);
+    }
+
+    /**
+     * 获取单条数据
+     * @param $id
+     * @return array|bool|false|\PDOStatement|string|\think\Model
+     * @throws Exception
+     */
+    public function getOne($id) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->getOne($id);
+    }
+
+    /**
+     * 添加
+     * @param $post
+     * @return int|string
+     * @throws Exception
+     */
+    public function add($post) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->add($post);
+    }
+
+    /**
+     * 修改
+     * @param $post
+     * @param $where
+     * @return bool
+     * @throws Exception
+     */
+    public function update($post, $where=[]) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->edit($post, $where);
+    }
+
+    /**
+     * 删除
+     * @param $id
+     * @return bool|int
+     * @throws Exception
+     */
+    public function del($id) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->del($id);
+    }
+}

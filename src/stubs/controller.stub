@@ -1,0 +1,133 @@
+<?php
+/**
+ * {$desc}
+ * Created by gii.
+ * User: {$userName}
+ * Date: {$date}
+ * Time: {$time}
+ */
+
+namespace app\{$module}\controller;
+
+use app\{$module}\module\{$fileNameUp} as {$fileNameUp}Module;
+use common\Debug;
+use think\Db;
+use think\Exception;
+
+class {$fileNameUp} extends Base
+{
+    public $title = '{$title}';
+
+    /**
+     * 列表页面
+     * @return \think\response\View
+     */
+    public function index() {
+        $search = [
+            [
+                'name' => '输入公司名称',
+                'type' => 'input',
+                'key'  => 'title',
+            ],
+        ];
+        $this->assign('get',input('get.key/a', []));
+        $this->assign('search' , $search);
+        return view();
+    }
+
+    /**
+     * 获取数据页面
+     * @return mixed
+     * @throws Exception
+     */
+    public function getData() {
+        $search = input('get.key/a',[]);
+        $page = input('get.page/d',1);
+        $count = input('get.count/d',10);
+
+        /* @var ${$fileName}Module {$fileNameUp}Module */
+        ${$fileName}Module = module('{$fileName}');
+        $data = ${$fileName}Module->getListWithCnt($search,$page,$count);
+        if($data === false) return $this->setError(Debug::getDebug());
+        return $this->setSuccess($data['list'],$data['total']);
+    }
+
+    /**
+     * 添加
+     * @return mixed|\think\response\View
+     */
+    public function add() {
+        /* @var ${$fileName}Module {$fileNameUp}Module */
+        ${$fileName}Module = module('{$fileName}');
+        if($post = input('post.')) {
+            try {
+                Db::startTrans();
+                $res = ${$fileName}Module->add($post);
+                if($res === false) {
+                    Db::rollback();
+                    return $this->setError(Debug::getDebug());
+                }
+            } catch (Exception $e) {
+                Db::rollback();
+                return $this->setError($e->getMessage());
+            }
+
+            Db::commit();
+            return $this->setSuccess();
+        }
+        $get = [];
+        $this->assign('get' , $get);
+        return view('form');
+    }
+
+    /**
+     * 修改
+     * @return mixed|\think\response\View
+     * @throws Exception
+     */
+    public function update() {
+        /* @var ${$fileName}Module {$fileNameUp}Module */
+        ${$fileName}Module = module('{$fileName}');
+        if($post = input('post.')) {
+            try {
+                Db::startTrans();
+                $res = ${$fileName}Module->update($post);
+                if($res === false) {
+                    Db::rollback();
+                    return $this->setError(Debug::getDebug());
+                }
+            } catch (Exception $e) {
+                Db::rollback();
+                return $this->setError($e->getMessage());
+            }
+
+            Db::commit();
+            return $this->setSuccess();
+        }
+
+        if(!$id = input('get.id/d')) {
+            $this->error('请选择要编辑的数据');
+        }
+        //修改
+        $get = ${$fileName}Module->getOne($id);
+        if(!$get) $this->error('该数据不存在');
+        $this->assign('get' , $get);
+        return view('form');
+    }
+
+    /**
+     * 删除
+     * @return mixed
+     * @throws Exception
+     */
+    public function del() {
+        $id = input('get.id/d');
+        if(!$id) return $this->setError('请选择要删除的数据');
+
+        /* @var ${$fileName}Module {$fileNameUp}Module */
+        ${$fileName}Module = module('{$fileNameUp}');
+        $res = ${$fileName}Module->del($id);
+        if(!$res) return $this->setError(Debug::getDebug());
+        return $this->setSuccess();
+    }
+}
