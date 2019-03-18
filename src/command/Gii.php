@@ -165,7 +165,9 @@ class Gii extends Command
         $tableField = $tableDesc['fields'];
         $fieldStr = '';
         foreach($tableField as $field) {
-            $fieldStr .= "{field:'{$field}', title:'<?php echo lang('{$field}');?>'},\r\n";
+            $status = '';
+            if($field == 'status') $status = ', toolbar:\'#toolStatus\'';
+            $fieldStr .= "{field:'{$field}', title:'<?php echo lang('{$field}');?>' $status},\r\n";
         }
         $data['{$fields}'] = $fieldStr;
 
@@ -189,7 +191,7 @@ class Gii extends Command
         $fieldStr = '';
         unset($tableField[0]); //删除ID
         foreach($tableField as $field) {
-            $fieldStr .= 'echo $formClass->setCluesLength(30)->text("'. $field .'","'. $field .'",true,"required");' . "\r\n";
+            $fieldStr .= 'echo $formClass->setCluesLength(30)->text(lang("'. $field .'"),"'. $field .'",true,"required");' . "\r\n";
         }
         $data['{$fields}'] = $fieldStr;
         $this->_createView('view_form', $data, 'form');

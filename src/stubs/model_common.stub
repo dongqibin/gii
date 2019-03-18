@@ -72,4 +72,21 @@ class {$fileNameUp} extends Base
         ];
         return $this->delDataBase($where);
     }
+
+    /**
+     * 改变禁用状态
+     * @param $id
+     * @param $status
+     * @return bool|int
+     * @throws Exception
+     */
+    public function changeStatus($id, $status) {
+        $where = [
+            $this->getPk() => $id,
+        ];
+        $data = [
+            'status' => $status,
+        ];
+        return $this->saveDataBase($where, $data);
+    }
 }

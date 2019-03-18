@@ -8,6 +8,8 @@
         ['del','删除'],
     ];
     echo $tableClass->jsBtn('barDemo',$btn);
+    //启用禁用复选框
+    echo $tableClass->toolCheckbox('toolStatus','status');
 ?>
 <script>
     //表格

@@ -76,4 +76,17 @@ class {$fileNameUp} extends Base
         ${$fileName}Model = model('{$fileName}');
         return ${$fileName}Model->del($id);
     }
+
+    /**
+     * 改变状态
+     * @param $id
+     * @param $status
+     * @return bool|int
+     * @throws Exception
+     */
+    public function changeStatus($id, $status) {
+        /* @var ${$fileName}Model {$fileNameUp}Model */
+        ${$fileName}Model = model('{$fileName}');
+        return ${$fileName}Model->changeStatus($id, $status);
+    }
 }

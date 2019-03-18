@@ -130,4 +130,23 @@ class {$fileNameUp} extends Base
         if(!$res) return $this->setError(Debug::getDebug());
         return $this->setSuccess();
     }
+
+    //改变禁用状态
+    public function status() {
+        $id = input('get.id');
+        $status = input('get.status/d');
+        if(!$id) return $this->setError('请选择要处理的公司');
+
+        /* @var ${$fileName}Module {$fileNameUp}Module */
+        ${$fileName}Module = module('{$fileNameUp}');
+        Db::startTrans();
+        $res = ${$fileName}Module->changeStatus($id, $status);
+        if(!$res) {
+            Db::rollback();
+            return $this->setError(Debug::getDebug());
+        }
+
+        Db::commit();
+        return $this->setSuccess();
+    }
 }
