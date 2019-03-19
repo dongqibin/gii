@@ -145,6 +145,7 @@ class Gii extends Command
 
         $stubPath = $this->_getStubPath('lang');
         $filePath = APP_PATH . 'lang/' . ucfirst($fileName) . '.php';
+		if(is_file($filePath)) return true; //如果语言包存在,则不创建
         $this->_createBase($stubPath, $data, $filePath);
     }
 
