@@ -25,7 +25,7 @@
             {fixed: 'right', title:'操作', width:200, toolbar: '#barDemo'}
         ]];
         var url = "{:url('/{$module}/{$fileName}/getData')}";
-        tableRender(cols,url,false,100);
+        tableRender(cols,url,false,10);
 
         //搜索
         var active = {
