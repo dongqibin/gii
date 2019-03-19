@@ -66,11 +66,11 @@
 
             if(layEvent === 'del') {
                 //删除
-                var url = '{:url("/admin/{$fileName}/del")}?id='+obj.data.id;
+                var url = '{:url("/{$module}/{$fileName}/del")}?id='+obj.data.id;
                 selfLayui.del(url);
             } else if(layEvent === 'edit') {
                 //编辑
-                selfLayui.openAdd('编辑{$title}','{:url("/admin/{$fileName}/update")}?id='+data.id);
+                selfLayui.openAdd('编辑{$title}','{:url("/{$module}/{$fileName}/update")}?id='+data.id);
             }
         });
     });
