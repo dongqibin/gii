@@ -24,7 +24,7 @@
             {$fields}
             {fixed: 'right', title:'操作', width:200, toolbar: '#barDemo'}
         ]];
-        var url = "{:url('/admin/{$fileName}/getData')}";
+        var url = "{:url('/{$module}/{$fileName}/getData')}";
         tableRender(cols,url,false,100);
 
         //搜索
