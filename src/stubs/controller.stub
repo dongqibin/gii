@@ -25,7 +25,7 @@ class {$fileNameUp} extends Base
     public function index() {
         $search = [
             [
-                'name' => '输入公司名称',
+                'name' => '输入{$title}名称',
                 'type' => 'input',
                 'key'  => 'title',
             ],

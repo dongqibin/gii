@@ -2,6 +2,7 @@
 <?php
     $tableClass = new \common\html\Table();
     echo $tableClass->addTitle($title);
+	//echo $tableClass->search($search)->getSearch();
     echo $tableClass->table()->getTable();
     $btn = [
         ['edit','编辑'],
