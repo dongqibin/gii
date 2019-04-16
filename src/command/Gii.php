@@ -16,10 +16,12 @@ use think\console\Output;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Command;
+use think\Loader;
 
 class Gii extends Command
 {
     public $title = '首页';
+    public $tableFieldInfo = null;
     private $_is_cover = true;
     private $_output = null;
 
@@ -114,6 +116,7 @@ class Gii extends Command
 
             //创建语言包
             $this->_createLang($fileName, $desc, $userName);
+
         } catch (Exception $e) {
             $this->_error('error : ' . $e->getMessage());
             return ;
@@ -145,7 +148,7 @@ class Gii extends Command
 
         $stubPath = $this->_getStubPath('lang');
         $filePath = APP_PATH . 'lang/' . ucfirst($fileName) . '.php';
-		if(is_file($filePath)) return true; //如果语言包存在,则不创建
+        if(is_file($filePath)) return true; //如果语言包存在,则不创建
         $this->_createBase($stubPath, $data, $filePath);
     }
 
@@ -208,6 +211,27 @@ class Gii extends Command
      * @param $module
      */
     private function _createModelCommon($fileName, $desc='描述', $userName='', $date='', $time='', $module='common') {
+        $tableDesc = $this->_getTableInfo($fileName);
+        $field = $tableDesc['fields'];
+        $methodStr = '';
+        $path = $this->_getStubPath('model_method');
+        $template = file_get_contents($path);
+        foreach($field as $v) {
+            $fieldDesc = $v;
+            $fieldUpper = Loader::parseName($v, 1, false);
+            $fieldUpperFirst = Loader::parseName($v, 1, true);
+            $fieldLower = Loader::parseName($v, 0, false);
+            //整理变量
+            $methodData = [
+                '{$desc}'      => $fieldDesc,
+                '{$fieldUpper}'=> $fieldUpper,
+                '{$fieldLower}'=> $fieldLower,
+                '{$fieldUpperFirst}'=> $fieldUpperFirst,
+            ];
+            $content = strtr($template, $methodData);
+            $methodStr .= $content;
+        }
+
         $data = [
             '{$desc}'       => $desc,
             '{$userName}'   => $userName,
@@ -215,6 +239,7 @@ class Gii extends Command
             '{$time}'       => $time,
             '{$module}'     => $module,
             '{$fileName}'   => $fileName,
+            '{$methodField}'=> $methodStr,
         ];
         $this->_create('model_common', $data, 'model');
     }
@@ -374,7 +399,10 @@ class Gii extends Command
     }
 
     private function _getTableInfo($fileName) {
-        return db($fileName)->getTableInfo();
+        if(!$this->tableFieldInfo) {
+            $this->tableFieldInfo = db($fileName)->getTableInfo();
+        }
+        return $this->tableFieldInfo;
     }
 
     private function _error($msg) {

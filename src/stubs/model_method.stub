@@ -1,0 +1,18 @@
+
+    /**
+     * 获取{$desc}
+     * @return mixed
+     */
+    public function get{$fieldUpperFirst}() {
+        return $this->data('{$fieldLower}');
+    }
+
+    /**
+     * 设置{$desc}
+     * @param ${$fieldLower}
+     * @return $this
+     */
+    public function set{$fieldUpperFirst}(${$fieldLower}) {
+        $this->data('{$fieldLower}', ${$fieldLower});
+        return $this;
+    }
