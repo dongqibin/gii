@@ -89,4 +89,22 @@ class {$fileNameUp} extends Base
         ];
         return $this->saveDataBase($where, $data);
     }
+
+    /**
+     * 设置ID
+     * @param $id
+     * @return $this
+     */
+    public function setId($id) {
+        $this->data('id', $id);
+        return $this;
+    }
+
+    /**
+     * 获取ID
+     * @return mixed
+     */
+    public function getId() {
+        return $this->data('id');
+    }
 }
